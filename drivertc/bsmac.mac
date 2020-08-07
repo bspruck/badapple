@@ -1,0 +1,118 @@
+
+  ;; For SFX/Instrument
+ 
+  MACRO TCS_STOP
+    dc.b 0
+  ENDM
+
+  MACRO TCS_WAIT
+ps    set \0
+                REPT 50
+                IF ps >= 255
+                  dc.b $1,255
+ps    set ps - 255
+                ELSE
+                  IF ps > 0
+                        dc.b $1,ps
+ps      set 0
+                  ENDIF
+                ENDIF
+                ENDR
+  ENDM
+
+  MACRO TCS_SHIFT
+    dc.b 2, \0, \1, \2, \3
+  ENDM
+
+  MACRO TCS_VOLUME
+    dc.b 3, \0, \1, \2
+  ENDM
+
+  MACRO TCS_FREQ
+    dc.b 4, \0, \1, \2, \3, \4
+  ENDM
+
+  MACRO TCS_DO
+    dc.b 5
+    IFVAR \0
+      dc.b \0
+    ELSE
+      dc.b -1  ;; Infinite
+    ENDIF
+  ENDM
+
+  MACRO TCS_LOOP
+    dc.b 6
+  ENDM
+
+  ;; Now for Music
+
+  MACRO TCM_STOP
+    dc.b 0, 0
+  ENDM
+
+  MACRO TCM_PRIO
+    dc.b 0, \0
+  ENDM
+
+  MACRO TCM_PAN
+    dc.b 1, \0
+  ENDM
+
+  MACRO TCM_NOTEON
+    dc.b 2, \0, \1, \2, \3
+  ENDM
+
+  MACRO TCM_NOTEOFF
+    dc.b 3, \0
+  ENDM
+
+  MACRO TCM_BASADJ
+    dc.b 4, \0, \1, \2
+  ENDM
+
+  MACRO TCM_DO
+    dc.b 5
+    IFVAR \0
+      dc.b \0
+    ELSE
+      dc.b -1  ;; Infinite
+    ENDIF
+  ENDM
+
+  MACRO TCM_LOOP
+    dc.b 6
+  ENDM
+
+  MACRO TCM_WAIT
+    dc.b 7, \0, \1
+  ENDM
+
+  MACRO TCM_DELAY
+    dc.b 7
+    dc.w \0
+  ENDM
+
+  MACRO TCM_SAMPLE
+    dc.b 8, \0
+  ENDM
+
+  MACRO TCM_CALL
+;;    dc.b 9, <\0, >\0  ;; LO, HI
+    dc.b 9
+    dc.w \0  ;; LO, HI
+  ENDM
+
+  MACRO TCM_RTS
+    dc.b $A
+  ENDM
+
+  MACRO TCM_SHORT
+    dc.b $B, \0, \1, \2
+  ENDM
+
+  MACRO TCM_BREAK
+    dc.b $C
+  ENDM
+
+
